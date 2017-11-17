@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Vue Example</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h3>Simple task manager</h3>
+        <form v-on:submit.prevent="addTask">
+            <label for="taskName">Enter  a task</label>
+            <input id="taskName" v-model.trim="taskName">
+        </form>
+        <template v-if="pendingTasks.length">
+            <h3>Pending tasks</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th colspan="2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="task in pendingTasks">
+                        <td>{{task.name}}</td>
+                        <td>
+                            <button v-on:click.prevent="finishTask(task)">Done</button>
+                            <button v-on:click.prevent="removeTask(task)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </template>
+        <template v-if="finishedTasks.length">
+            <h3>Finished tasks</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="task in finishedTasks">
+                    <td>{{task.name}}</td>
+                    <td>
+                        <button v-on:click.prevent="removeTask(task)">Remove</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </template>
+    </div>
+    <script src="dist/build.js"></script>
+</body>
+</html>
