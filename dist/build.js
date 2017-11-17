@@ -63,7 +63,6 @@
 
 	    methods: {
 	        addTask: function addTask() {
-	            console.log(this.taskName.length);
 	            //prevent addition of empty task
 	            if (this.taskName.length < 1) {
 	                return;

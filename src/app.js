@@ -11,7 +11,6 @@ new Vue ({
 
     methods: {
         addTask: function () {
-            console.log(this.taskName.length);
             //prevent addition of empty task
             if (this.taskName.length < 1){
                 return;
