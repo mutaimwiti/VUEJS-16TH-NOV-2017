@@ -36,6 +36,7 @@ new Vue ({
 
         finishTask: function (task) {
             task.status = "finished";
+            this.taskChange();
         },
 
         //helpers - Callbacks for filtering tasks array
@@ -49,6 +50,18 @@ new Vue ({
 
         checkTaskExists: function (task) {
             return task.name === this.taskName;
+        },
+
+        taskChange: function () {
+            //assume task does not exist
+            this.taskExists = false;
+            //check if task already exists and is pending. If it does notify user
+            let pending = this.tasks.filter(this.checkPending);
+            if (pending.length > 0){
+                if (pending.filter(this.checkTaskExists).length > 0){
+                    this.taskExists = true;
+                }
+            }
         }
     },
 
@@ -64,12 +77,11 @@ new Vue ({
 
     watch:{
         taskName: function () {
-            //assume task does not exist
-            this.taskExists = false;
-            //check if task already exists. If it does notify user
-            if( (this.tasks.filter(this.checkTaskExists).length) >= 1){
-                this.taskExists = true;
-            }
+            this.taskChange();
+        },
+
+        tasks: function () {
+            this.taskChange();
         }
     }
 });

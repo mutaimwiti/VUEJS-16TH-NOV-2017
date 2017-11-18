@@ -86,6 +86,7 @@
 
 	        finishTask: function finishTask(task) {
 	            task.status = "finished";
+	            this.taskChange();
 	        },
 
 	        //helpers - Callbacks for filtering tasks array
@@ -99,6 +100,18 @@
 
 	        checkTaskExists: function checkTaskExists(task) {
 	            return task.name === this.taskName;
+	        },
+
+	        taskChange: function taskChange() {
+	            //assume task does not exist
+	            this.taskExists = false;
+	            //check if task already exists and is pending. If it does notify user
+	            var pending = this.tasks.filter(this.checkPending);
+	            if (pending.length > 0) {
+	                if (pending.filter(this.checkTaskExists).length > 0) {
+	                    this.taskExists = true;
+	                }
+	            }
 	        }
 	    },
 
@@ -114,12 +127,11 @@
 
 	    watch: {
 	        taskName: function taskName() {
-	            //assume task does not exist
-	            this.taskExists = false;
-	            //check if task already exists. If it does notify user
-	            if (this.tasks.filter(this.checkTaskExists).length >= 1) {
-	                this.taskExists = true;
-	            }
+	            this.taskChange();
+	        },
+
+	        tasks: function tasks() {
+	            this.taskChange();
 	        }
 	    }
 	});
