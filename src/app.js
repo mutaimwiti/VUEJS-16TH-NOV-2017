@@ -4,7 +4,8 @@ new Vue ({
     el: '#app',
     data: {
         taskName: '',
-        tasks: []
+        tasks: [],
+        taskExists: false
     },
 
     //status - pending, done
@@ -13,6 +14,10 @@ new Vue ({
         addTask: function () {
             //prevent addition of empty task
             if (this.taskName.length < 1){
+                return;
+            }
+            //prevent addition of task that exists
+            if (this.taskExists){
                 return;
             }
             this.tasks.push(
@@ -40,6 +45,10 @@ new Vue ({
 
         checkDone: function (task) {
             return task.status === "finished";
+        },
+
+        checkTaskExists: function (task) {
+            return task.name === this.taskName;
         }
     },
 
@@ -50,6 +59,17 @@ new Vue ({
 
         finishedTasks: function () {
             return this.tasks.filter(this.checkDone);
+        }
+    },
+
+    watch:{
+        taskName: function () {
+            //assume task does not exist
+            this.taskExists = false;
+            //check if task already exists. If it does notify user
+            if( (this.tasks.filter(this.checkTaskExists).length) >= 1){
+                this.taskExists = true;
+            }
         }
     }
 });

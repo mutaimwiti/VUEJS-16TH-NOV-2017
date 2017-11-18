@@ -20,6 +20,11 @@
             <label for="taskName">Enter  a task</label>
             <input id="taskName" v-model.trim="taskName">
         </form>
+        <template v-if="taskExists">
+            <br>
+            <label>Task already exists!!!</label>
+        </template>
+        <label></label>
         <template v-if="pendingTasks.length">
             <h3>Pending tasks</h3>
             <table>
