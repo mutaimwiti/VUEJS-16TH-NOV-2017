@@ -5,12 +5,8 @@
             <label for="taskName">Enter  a task</label>
             <input id="taskName" v-model.trim="taskName">
         </form>
-        <template v-if="taskExists">
-            <div>
-                <br>
-                <label>Task already exists!!!</label>
-            </div>
-        </template>
+        <!--A dynamic prop: binds prop to data on parent-->
+        <item-exists v-bind:exists="taskExists"></item-exists>
         <label></label>
         <template v-if="pendingTasks.length">
             <h3>Pending tasks</h3>
@@ -55,7 +51,10 @@
 </template>
 
 <script>
+    import ItemExists from "./components/ItemExists.vue";
+
     export default {
+        components: {ItemExists},
         name: 'app',
         data() {
             return {
